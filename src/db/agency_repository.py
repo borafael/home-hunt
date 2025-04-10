@@ -4,8 +4,9 @@ from fastapi import Depends
 from src.db.agency import AgencyRecord
 from src.domain.agency import Agency
 from src.db.database import get_db
+from src.domain.agency_repository import AgencyRepository
 
-class AgencyRepository:
+class DBAgencyRepository(AgencyRepository):
     
     def __init__(self, session):
         self.__session = session
@@ -14,8 +15,6 @@ class AgencyRepository:
         return self.__session.query(AgencyRecord).filter(AgencyRecord.id == agency_id).first()
     
     def get_all(self) -> List[Agency]:
-        print(self.__session)
-        print(type(self.__session))
         return [Agency(agency_record.id, agency_record.name, agency_record.site) for agency_record in self.__session.query(AgencyRecord).all()]
     
     def create(self, agency: Agency) -> Agency:

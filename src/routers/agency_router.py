@@ -3,8 +3,9 @@ from fastapi import APIRouter, Depends, HTTPException, Response, status
 from sqlalchemy.orm import Session
 from typing import List, Optional
 
-from src.db.agency_repository import AgencyRepository
+from src.db.agency_repository import DBAgencyRepository
 from src.db.database import get_db
+from src.dependencies import get_agency_service
 from src.domain.agency_service import AgencyService
 
 from pydantic import BaseModel
@@ -21,9 +22,7 @@ class AgencyPayload(BaseModel):
 
 
 @router.get("/", status_code=status.HTTP_200_OK)
-def get_agencies(response: Response, session = Depends(get_db)):
-    agency_repository = AgencyRepository(session)
-    agency_service = AgencyService(agency_repository)
+def get_agencies(response: Response, agency_service: AgencyService = Depends(get_agency_service)):
 
     try:
         agencies = agency_service.find_all()

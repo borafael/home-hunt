@@ -1,6 +1,9 @@
+from fastapi import Depends
+from src.domain.agency_repository import AgencyRepository
+
 class AgencyService:
     
-    def __init__(self, agency_repository=None):
+    def __init__(self, agency_repository: AgencyRepository=None):
         self.__agency_repository = agency_repository
     
     def find_by_id(self, agency_id):
