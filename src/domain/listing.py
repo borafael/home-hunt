@@ -1,5 +1,4 @@
-from db.agency import AgencyRecord
-
+from src.db.agency_record import AgencyRecord
 
 class Listing:
 

@@ -1,10 +1,8 @@
 from typing import List
 
-from fastapi import Depends
-from src.db.agency import AgencyRecord
-from src.domain.agency import Agency
-from src.db.database import get_db
-from src.domain.agency_repository import AgencyRepository
+from db.agency_record import AgencyRecord
+from domain.agency import Agency
+from domain.agency_repository import AgencyRepository
 
 class DBAgencyRepository(AgencyRepository):
     

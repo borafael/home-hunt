@@ -12,8 +12,8 @@ src_path = os.getenv('SRC', 'src')  # defaults to 'src' if not set
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), f'../{src_path}')))
 
 from db.database import Base
-from db.agency import AgencyRecord
-from db.listing import Listing
+from db.agency_record import AgencyRecord
+from db.listing_record import ListingRecord
 
 # Load environment variables
 load_dotenv()
