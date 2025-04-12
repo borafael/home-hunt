@@ -1,9 +1,9 @@
 from fastapi import Depends
 
-from src.db.agency_repository import DBAgencyRepository
-from src.db.database import get_db
-from src.domain.agency_repository import AgencyRepository
-from src.domain.agency_service import AgencyService
+from db.db_agency_repository import DBAgencyRepository
+from db.database import get_db
+from domain.agency_repository import AgencyRepository
+from domain.agency_service import AgencyService
 
 
 def get_agency_repository(session = Depends(get_db)) -> AgencyRepository:

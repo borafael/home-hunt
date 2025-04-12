@@ -1,5 +1,5 @@
 from fastapi import Depends
-from src.domain.agency_repository import AgencyRepository
+from domain.agency_repository import AgencyRepository
 
 class AgencyService:
     

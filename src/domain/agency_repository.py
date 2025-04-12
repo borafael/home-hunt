@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List
-from src.domain.agency import Agency
+from domain.agency import Agency
 
 class AgencyRepository(ABC):
     

@@ -1,12 +1,7 @@
-import uuid
-from fastapi import APIRouter, Depends, HTTPException, Response, status
-from sqlalchemy.orm import Session
-from typing import List, Optional
-
-from src.db.agency_repository import DBAgencyRepository
-from src.db.database import get_db
-from src.dependencies import get_agency_service
-from src.domain.agency_service import AgencyService
+from uuid import UUID
+from fastapi import APIRouter, Depends, Response, status
+from dependencies import get_agency_service
+from domain.agency_service import AgencyService
 
 from pydantic import BaseModel
 
@@ -16,7 +11,7 @@ router = APIRouter(
 )
 
 class AgencyPayload(BaseModel):
-    id: int
+    id: UUID
     name: str
     site: str
 

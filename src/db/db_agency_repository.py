@@ -1,5 +1,6 @@
 from typing import List
 
+
 from db.agency_record import AgencyRecord
 from domain.agency import Agency
 from domain.agency_repository import AgencyRepository
