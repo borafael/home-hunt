@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from src.routers import agency_router
+from routers import agency_router
 
 app = FastAPI(
     title="Home Hunt API",
