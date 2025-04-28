@@ -32,7 +32,8 @@ pip install -r requirements.txt
 
 To run the application in development mode:
 ```bash
-uvicorn src.main:app --reload
+cd src
+uvicorn main:app --reload
 ```
 
 The API will be available at http://localhost:8000
