@@ -10,18 +10,22 @@ class DBAgencyRepository(AgencyRepository):
     def __init__(self, session):
         self.__session = session
 
+    @staticmethod
+    def to_domain(agency_record: AgencyRecord) -> Agency:
+        return Agency(agency_record.id, agency_record.name, agency_record.site)
+
     def get_by_id(self, agency_id: int) -> Agency:
-        return self.__session.query(AgencyRecord).filter(AgencyRecord.id == agency_id).first()
+        return DBAgencyRepository.to_domain(self.__session.query(AgencyRecord).filter(AgencyRecord.id == agency_id).first())
     
     def get_all(self) -> List[Agency]:
-        return [Agency(agency_record.id, agency_record.name, agency_record.site) for agency_record in self.__session.query(AgencyRecord).all()]
+        return list(map(DBAgencyRepository.to_domain, self.__session.query(AgencyRecord).all()))
     
     def create(self, agency: Agency) -> Agency:
         agency_record = AgencyRecord(name=agency.name, site=agency.site)
         self.__session.add(agency_record)
         self.__session.commit()
         self.__session.refresh(agency_record)
-        return Agency(agency_record.id, agency_record.name, agency_record.site)
+        return DBAgencyRepository.to_domain(agency_record)
     
     def update(self, agency: Agency):
         agency_record = self.get_by_id(agency_id=agency.id)
