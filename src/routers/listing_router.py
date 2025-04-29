@@ -27,14 +27,7 @@ class ListingPayload(BaseModel):
     agency: Optional[AgencyPayload] | None  # Agency details embedded in the response
 
 class ListingCreatePayload(BaseModel):
-    name: str
     link: str
-    agency_id: UUID | None
-
-class ListingUpdatePayload(BaseModel):
-    name: str | None = None
-    link: str | None = None
-    agency_id: UUID | None = None
 
 @router.get("/", response_model=List[ListingPayload], status_code=status.HTTP_200_OK)
 def get_listings(listing_service: ListingService = Depends(get_listing_service)):
@@ -61,3 +54,23 @@ def get_listing(listing_id: UUID, listing_service: ListingService = Depends(get_
         )
     else:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Listing not found")
+    
+@router.post("/", response_model=ListingPayload, status_code=status.HTTP_201_CREATED)
+def create_listing(listing: ListingCreatePayload, listing_service: ListingService = Depends(get_listing_service)):
+    new_listing = Listing(link=listing.link)
+    created_listing = listing_service.create(new_listing)
+    return ListingPayload(
+        id=created_listing.id,
+        name=created_listing.name,
+        link=created_listing.link,
+        agency=None
+    )
+
+@router.delete("/{listing_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_listing(listing_id: UUID, listing_service: ListingService = Depends(get_listing_service)):
+    listing = listing_service.find_by_id(listing_id)
+    if listing:
+        listing_service.delete(listing)
+    else:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Listing not found")
+

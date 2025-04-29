@@ -5,7 +5,7 @@ from domain.agency import Agency
 
 class Listing:
 
-    def __init__(self, id: UUID, name: str, link: str, agency: Optional[Agency]):
+    def __init__(self, link: str, id: Optional[UUID] = None, name: Optional[str] = None, agency: Optional[Agency] = None):
         self.__id = id
         self.__name = name
         self.__link = link
