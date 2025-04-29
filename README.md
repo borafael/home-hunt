@@ -43,7 +43,7 @@ API documentation will be available at http://localhost:8000/docs
 
 To run the tests, make sure to include the project root in the Python path:
 ```bash
-PYTHONPATH=$PYTHONPATH:. pytest
+PYTHONPATH=$PYTHONPATH:.:./src pytest
 ```
 
 ## Database Migrations
