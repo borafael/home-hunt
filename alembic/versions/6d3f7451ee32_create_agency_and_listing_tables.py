@@ -1,8 +1,8 @@
-"""creation of listing and agency tables
+"""create agency and listing tables
 
-Revision ID: ff1457db67e1
+Revision ID: 6d3f7451ee32
 Revises: 
-Create Date: 2025-04-30 23:42:54.707031
+Create Date: 2025-05-01 17:40:10.322333
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'ff1457db67e1'
+revision: str = '6d3f7451ee32'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -33,7 +33,13 @@ def upgrade() -> None:
     op.create_table('listings',
     sa.Column('id', sa.UUID(), server_default=sa.text('gen_random_uuid()'), nullable=False),
     sa.Column('link', sa.String(), nullable=True),
-    sa.Column('status', sa.Enum('PENDING', 'EXPIRED', name='status'), nullable=True),
+    sa.Column('latitude', sa.Double(), nullable=True),
+    sa.Column('longitude', sa.Double(), nullable=True),
+    sa.Column('bedrooms', sa.Integer(), nullable=True),
+    sa.Column('bathrooms', sa.Integer(), nullable=True),
+    sa.Column('size', sa.Integer(), nullable=True),
+    sa.Column('price', sa.Integer(), nullable=True),
+    sa.Column('status', sa.Enum('PENDING', 'EXPIRED', 'RESERVED', name='status'), nullable=True),
     sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     sa.PrimaryKeyConstraint('id')

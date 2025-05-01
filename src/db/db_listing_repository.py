@@ -16,7 +16,27 @@ class DBListingRepository(ListingRepository):
     def to_domain(listing_record: ListingRecord) -> Listing:
         return Listing(
             id=listing_record.id,
-            link=listing_record.link
+            link=listing_record.link,
+            coordinates=Listing.Coordinates(listing_record.latitude, listing_record.longitude),
+            bedrooms=listing_record.bedrooms,
+            bathrooms=listing_record.bathrooms,
+            size=listing_record.size,
+            price=listing_record.price,
+            status=listing_record.status
+        )
+    
+    @staticmethod
+    def to_db(listing: Listing) -> ListingRecord:
+        return ListingRecord(
+            id=listing.id,
+            link=listing.link,
+            latitude=listing.coordinates.latitude,
+            longitude=listing.coordinates.longitude,
+            bedrooms=listing.bedrooms,
+            bathrooms=listing.bathrooms,
+            size=listing.size,
+            price=listing.price,
+            status=listing.status
         )
 
     def get_by_id(self, listing_id: uuid.UUID) -> Listing:
@@ -28,9 +48,7 @@ class DBListingRepository(ListingRepository):
         return [DBListingRepository.to_domain(record) for record in listing_records]
     
     def create(self, listing: Listing) -> Listing:
-        new_listing = ListingRecord(
-            link=listing.link
-        )
+        new_listing = DBListingRepository.to_db(listing)
         self.__session.add(new_listing)
         self.__session.commit()
         return DBListingRepository.to_domain(new_listing)
