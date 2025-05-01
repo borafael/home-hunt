@@ -1,12 +1,12 @@
 # src/routers/listing_router.py
 from typing import List, Optional
 from uuid import UUID
+import uuid
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 
 from dependencies import get_listing_service
 from domain.listing import Listing
-from domain.listing_service import ListingService
-from domain.agency import Agency  # Import Agency for request/response models
+from domain.listing_service import ListingCreationException, ListingService
 
 from pydantic import BaseModel
 
@@ -22,9 +22,8 @@ class AgencyPayload(BaseModel):  # Re-use or create a common model if needed
 
 class ListingPayload(BaseModel):
     id: UUID
-    name: str
     link: str
-    agency: Optional[AgencyPayload] | None  # Agency details embedded in the response
+    status: str
 
 class ListingCreatePayload(BaseModel):
     link: str
@@ -35,9 +34,8 @@ def get_listings(listing_service: ListingService = Depends(get_listing_service))
     return [
         ListingPayload(
             id=listing.id,
-            name=listing.name,
             link=listing.link,
-            agency=AgencyPayload(id=listing.agency.id, name=listing.agency.name, site=listing.agency.site) if listing.agency else None
+            status=listing.status
         )
         for listing in listings
     ]
@@ -48,22 +46,26 @@ def get_listing(listing_id: UUID, listing_service: ListingService = Depends(get_
     if listing:
         return ListingPayload(
             id=listing.id,
-            name=listing.name,
             link=listing.link,
-            agency=AgencyPayload(id=listing.agency.id, name=listing.agency.name, site=listing.agency.site) if listing.agency else None
+            status=listing.status
         )
     else:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Listing not found")
     
 @router.post("/", response_model=ListingPayload, status_code=status.HTTP_201_CREATED)
-def create_listing(listing: ListingCreatePayload, listing_service: ListingService = Depends(get_listing_service)):
-    new_listing = Listing(link=listing.link)
-    created_listing = listing_service.create(new_listing)
+async def create_listing(response: Response, listing: ListingCreatePayload, listing_service: ListingService = Depends(get_listing_service)):
+    new_listing = Listing(id=uuid.uuid4(), link=listing.link)
+
+    try:
+        created_listing = await listing_service.create(new_listing)
+    except ListingCreationException as e:
+        #not sure raising an HTTPException is right here, i am only using it to return a custom status and message
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, str(e))
+
     return ListingPayload(
         id=created_listing.id,
-        name=created_listing.name,
         link=created_listing.link,
-        agency=None
+        status=created_listing.status
     )
 
 @router.delete("/{listing_id}", status_code=status.HTTP_204_NO_CONTENT)

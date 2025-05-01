@@ -1,3 +1,4 @@
+from enum import Enum
 from typing import Optional
 from uuid import UUID
 from db.agency_record import AgencyRecord
@@ -5,24 +6,23 @@ from domain.agency import Agency
 
 class Listing:
 
-    def __init__(self, link: str, id: Optional[UUID] = None, name: Optional[str] = None, agency: Optional[Agency] = None):
+    class Status(Enum):
+        PENDING = "PENDING"
+        EXPIRED = "EXPIRED"
+        
+    def __init__(self, id: UUID, link: str, status: Status = None):
         self.__id = id
-        self.__name = name
         self.__link = link
-        self.__agency = agency
+        self.__status = status or Listing.Status.PENDING
 
     @property
     def id(self) -> UUID:
         return self.__id
 
     @property
-    def name(self) -> str:
-        return self.__name
-    
-    @property
     def link(self) -> str:
         return self.__link
     
     @property
-    def agency(self) -> Agency:
-        return self.__agency
+    def status(self) -> Status:
+        return self.__status

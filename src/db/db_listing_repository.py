@@ -16,9 +16,7 @@ class DBListingRepository(ListingRepository):
     def to_domain(listing_record: ListingRecord) -> Listing:
         return Listing(
             id=listing_record.id,
-            name=listing_record.name or listing_record.link,
-            link=listing_record.link,
-            agency=None
+            link=listing_record.link
         )
 
     def get_by_id(self, listing_id: uuid.UUID) -> Listing:
