@@ -10,6 +10,7 @@ class Listing:
         PENDING = "PENDING"
         EXPIRED = "EXPIRED"
         RESERVED = "RESERVED"
+        REJECTED = "REJECTED"
 
     class Coordinates:
 

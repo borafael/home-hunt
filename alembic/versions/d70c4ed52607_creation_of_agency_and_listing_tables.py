@@ -1,8 +1,8 @@
-"""create agency and listing tables
+"""creation of agency and listing tables
 
-Revision ID: 6d3f7451ee32
+Revision ID: d70c4ed52607
 Revises: 
-Create Date: 2025-05-01 17:40:10.322333
+Create Date: 2025-05-02 12:45:49.329515
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '6d3f7451ee32'
+revision: str = 'd70c4ed52607'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -39,7 +39,7 @@ def upgrade() -> None:
     sa.Column('bathrooms', sa.Integer(), nullable=True),
     sa.Column('size', sa.Integer(), nullable=True),
     sa.Column('price', sa.Integer(), nullable=True),
-    sa.Column('status', sa.Enum('PENDING', 'EXPIRED', 'RESERVED', name='status'), nullable=True),
+    sa.Column('status', sa.Enum('PENDING', 'EXPIRED', 'RESERVED', 'REJECTED', name='status'), nullable=True),
     sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     sa.PrimaryKeyConstraint('id')
