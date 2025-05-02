@@ -1,0 +1,10 @@
+html, body {
+    height: 100%; /* Make html and body take up the full viewport height */
+    margin: 0;     /* Remove default browser margins */
+    padding: 0;    /* Remove default browser padding */
+}
+
+#map {
+    height: 100%; /* Make the map container take up the full height */
+    width: 100%;  /* Make the map container take up the full width */
+}
