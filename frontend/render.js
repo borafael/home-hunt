@@ -40,7 +40,7 @@ function addListingMarkers(listings) {
       });
 
       const infowindow = new google.maps.InfoWindow({
-        content: `<a href="${listing.link}" target="_blank">${listing.link}</a><br>Price: €${listing.price}`,
+        content: `<a href="${listing.link}" target="_blank">${listing.link}</a><br>Bedrooms: ${listing.bedrooms}<br>Bathrooms: ${listing.bathrooms}<br>Size: ${listing.size}<br>Price: €${listing.price}`,
       });
 
       marker.addListener('click', () => {

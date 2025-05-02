@@ -5,7 +5,8 @@ async function getListings() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const listings = await response.json();
-        return listings
+        const filteredListings = listings.filter(listing => listing.status !== 'RESERVED' && listing.status !== 'REJECTED');
+        return filteredListings
     } catch (error) {
         console.error('Error fetching listings:', error);
         listingsContainer.innerHTML = '<p>Failed to load listings.</p>';
