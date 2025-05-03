@@ -29,6 +29,7 @@ class ListingPayload(BaseModel):
     size: Optional[int]
     price: int
     coordinates: dict
+    availability: dict
 
 class ListingCreatePayload(BaseModel):
     link: str
@@ -45,6 +46,10 @@ def domain_to_payload(listing: Listing) -> ListingPayload:
         coordinates={
             "latitude": listing.coordinates.latitude,
             "longitude": listing.coordinates.longitude
+        },
+        availability={
+            "start": listing.availability.start,
+            "end": listing.availability.end
         }
     )
 

@@ -1,4 +1,4 @@
-from sqlalchemy import UUID, Column, Double, Enum, ForeignKey, Integer, String, DateTime
+from sqlalchemy import UUID, Column, Date, Double, Enum, ForeignKey, Integer, String, DateTime
 import sqlalchemy
 from sqlalchemy.sql import func
 from db.database import Base
@@ -11,6 +11,8 @@ class ListingRecord(Base):
     link = Column(String)
     latitude = Column(Double)
     longitude = Column(Double)
+    availability_start = Column(Date)
+    availability_end = Column(Date)
     bedrooms = Column(Integer)
     bathrooms = Column(Integer)
     size = Column(Integer)

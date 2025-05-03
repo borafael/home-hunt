@@ -1,8 +1,7 @@
+from datetime import date
 from enum import Enum
 from typing import Optional
 from uuid import UUID
-from db.agency_record import AgencyRecord
-from domain.agency import Agency
 
 class Listing:
 
@@ -26,10 +25,25 @@ class Listing:
         def longitude(self):
             return self.__longitude
         
-    def __init__(self, coordinates: Coordinates, bedrooms: int, bathrooms: int, size: int, price: int, status: Status = None, id: UUID = None, link: str = None):
+    class Availability:
+
+        def __init__(self, start: date, end: date):
+            self.__start = start
+            self.__end = end
+
+        @property
+        def start(self) -> date:
+            return self.__start
+
+        @property
+        def end(self) -> date:
+            return self.__end
+
+    def __init__(self, coordinates: Coordinates, availability: Availability, bedrooms: int, bathrooms: int, size: int, price: int, status: Status = None, id: UUID = None, link: str = None):
         self.__id = id
         self.__link = link
         self.__coordinates = coordinates
+        self.__availability = availability
         self.__bedrooms = bedrooms
         self.__bathrooms = bathrooms
         self.__size = size
@@ -68,11 +82,16 @@ class Listing:
     def coordinates(self) -> Coordinates:
         return self.__coordinates
     
+    @property
+    def availability(self) -> Availability:
+        return self.__availability
+    
     def with_link(self, link: str) -> "Listing":
         return Listing(
             id=self.id,
             link=link,
             coordinates=self.coordinates,
+            availability=self.availability,
             bedrooms=self.bedrooms,
             bathrooms=self.bathrooms,
             size=self.size,

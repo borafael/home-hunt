@@ -1,8 +1,8 @@
 """creation of agency and listing tables
 
-Revision ID: d70c4ed52607
+Revision ID: 51a759439a8d
 Revises: 
-Create Date: 2025-05-02 12:45:49.329515
+Create Date: 2025-05-02 16:47:20.202111
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'd70c4ed52607'
+revision: str = '51a759439a8d'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -35,6 +35,8 @@ def upgrade() -> None:
     sa.Column('link', sa.String(), nullable=True),
     sa.Column('latitude', sa.Double(), nullable=True),
     sa.Column('longitude', sa.Double(), nullable=True),
+    sa.Column('availability_start', sa.Date(), nullable=True),
+    sa.Column('availability_end', sa.Date(), nullable=True),
     sa.Column('bedrooms', sa.Integer(), nullable=True),
     sa.Column('bathrooms', sa.Integer(), nullable=True),
     sa.Column('size', sa.Integer(), nullable=True),
