@@ -5,10 +5,26 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Home Hunt</title>
         <link rel="stylesheet" href="/static/style.css">
-        <script type="module" src="/static/app.js"></script>        
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=API_KEY&callback=initMap"></script>
+        <script type="module" src="/static/app.js"></script>
     </head>
     <body>
-        <div id="map"></div>
+        <listings-map id="map"></listings-map>
+
+        <script>
+            function initMap() {
+                const mapElement = document.getElementById('map');
+                if (mapElement) {
+                    mapElement.initializeMap(); // Call the method on the custom element instance
+                } else {
+                    console.error('<listings-map> element not found when initMap was called.');
+                }
+            }
+        </script>
+
+        <script
+            async
+            defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdgcGKUbf73yilprrw9d55SMSn7by20PU&callback=initMap&loading=async"
+        ></script>
     </body>
 </html>
